@@ -85,7 +85,7 @@ public abstract class FabricaSprite {
 
 	public Sprite[] spriteBloqueSolido() {
 		Sprite[] spriteBloqueSolido=new Sprite[1];
-		spriteBloqueSolido[0]=new Sprite(rutaSprite + "/bloque_solido.png");
+		spriteBloqueSolido[0]=new Sprite(rutaSprite + "/ladrillo_solido.gif");
 		return spriteBloqueSolido;
 	}
 

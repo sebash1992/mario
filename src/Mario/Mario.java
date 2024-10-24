@@ -212,15 +212,14 @@ public class Mario extends Entidad implements EntidadMario{
 		}
 
 		if (direccionDeMovimiento == ARRIBA) {
-			if (sobreSueloFirme) {
+			if (estaEnSueloFirme(obtenerPosicionY()) || estaSobrePlataforma(entidades,velocidadY)) {
 				velocidadY = alturaSalto; 
 				posicionY += 1;
-				sobreSueloFirme = false;
 			}
 			
 		}
 
-		if (!estaEnSueloFirme(obtenerPosicionY())) {
+		if (!estaEnSueloFirme(obtenerPosicionY()) && !estaSobrePlataforma(entidades,velocidadY)) {
 			velocidadY -= gravedad; 
 
 			int velocidadYAux = detectarColisionesArriba(entidades, velocidadY); 
@@ -230,48 +229,18 @@ public class Mario extends Entidad implements EntidadMario{
 				velocidadY = -0.5;
 				
 			}else {
-				
-				posicionY += velocidadY;
+				int diferenciaConEntidadAbajo = detectarColisionesAbajo(entidades, velocidadY);
+				int diferenciaConPiso =  detectarColisionePiso(sueloFirme,velocidadY);
+				if(diferenciaConEntidadAbajo != 0 && diferenciaConPiso!= 0) {
+					if(diferenciaConEntidadAbajo >= diferenciaConPiso) {
+						posicionY += diferenciaConEntidadAbajo;
+					}else {
+						posicionY += diferenciaConPiso;
+					}
+				}
 			}
 			observer.actualizarPosicion();
 		}
-		
-		
-		/*if (!estaEnSueloFirme(obtenerPosicionY()) && caer) {
-			velocidadY -= gravedad; 
-			if(velocidadY > 0  )posicionY += detectarColisionesArriba(entidades, velocidadY); 
-			observer.actualizarPosicion();
-		}
-		
-		if(!subir) {
-			velocidadY = -5;
-		}
-		int copp = obtenerPosicionY();
-		if (!detectarColisionesAbajo(entidades, velocidadY) && !estaEnSueloFirme(obtenerPosicionY())) {
-			habilitarCaida();
-		}
-		if(detectarColisionesArriba(entidades, velocidadY)== 0) {
-			habilitarCaida();
-			deshabilitarSubir();
-		}
-		else {
-			habilitarSubir();
-		}*/
-		
-		
-		
-		
-		
-		/*if (posicionY <= estadoDeMario.obtenerNuevaPosicionY()) { //"posicionY <= 139" significa que mario está por encima del suelo
-			posicionY = estadoDeMario.obtenerNuevaPosicionY();
-			velocidadY = 0;
-			sobreSueloFirme = true; 
-			observer.actualizarPosicion();
-		}  
-
-		/*if (direccionDeMovimiento == INMOVIL && sobreSueloFirme) {
-			observer.actualizarPosicion();
-		}*/
 	}
 
 	public void cambiarEstado(MarioState estadoDeMario) {
