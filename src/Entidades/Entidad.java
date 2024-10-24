@@ -205,7 +205,7 @@ public abstract class Entidad implements EntidadLogica{
 					if (rectanguloDerechoSprite.intersects(rectanguloIzquierdo)) {
 
 						colision = true;
-						System.out.println("Mario por derecha, colisiona entidad por izquierda");
+						System.out.println(sprite.obtenerRutaImagen()+ " por derecha, colisiona entidad por izquierda");
 					
 			}
 		}
@@ -228,19 +228,20 @@ public abstract class Entidad implements EntidadLogica{
 					if (rectanguloIzquierdoSprite.intersects(rectanguloDerecho)) {
 
 						colision = true;
-						System.out.println("Mario por Izquierda, colisiona entidad por derecha");
+						System.out.println(sprite.obtenerRutaImagen()+ " por Izquierda, colisiona entidad por derecha");
 					
 			}
 		}
 		return colision;
 	}
 	
-	public boolean detectarColisionesArriba(List<Entidad> entidades,double velocidad) {
+	public int detectarColisionesArriba(List<Entidad> entidades,double velocidad) {
 		Sprite spriteMario = this.obtenerSprite();
 		boolean colision = false;
+		int nuevaVelocidad = (int)velocidad;
 		
 		Rectangle rectanguloArribaSprite = spriteMario.obtenerRectanguloArriba();
-		rectanguloArribaSprite.setBounds((int)(rectanguloArribaSprite.x), (int)(rectanguloArribaSprite.y-velocidad), rectanguloArribaSprite.width, rectanguloArribaSprite.height);
+		rectanguloArribaSprite.setBounds((int)(rectanguloArribaSprite.x), (int)(rectanguloArribaSprite.y-nuevaVelocidad), rectanguloArribaSprite.width, rectanguloArribaSprite.height);
 
 		for (Entidad entidad : entidades.stream().filter(x -> !x.estaEliminada()).collect(Collectors.toList())) {
 				Sprite spriteEntidad = entidad.obtenerSprite();
@@ -250,7 +251,30 @@ public abstract class Entidad implements EntidadLogica{
 					if (rectanguloArribaSprite.intersects(rectanguloAbajo)) {
 
 						colision = true;
-						System.out.println("Mario por Arriba, colisiona entidad por abajo");
+						nuevaVelocidad =  rectanguloArribaSprite.y  - rectanguloArribaSprite.height - rectanguloAbajo.y;
+						System.out.println(sprite.obtenerRutaImagen()+ " por Arriba, colisiona entidad por abajo");
+					
+			}
+		}
+		return nuevaVelocidad;
+	}
+	
+	public boolean detectarColisionesAbajo(List<Entidad> entidades,double velocidad) {
+		Sprite sprite = this.obtenerSprite();
+		boolean colision = false;
+		
+		Rectangle rectanguloAbajoSprite = sprite.obtenerRectanguloAbajo();
+		rectanguloAbajoSprite.setBounds((int)(rectanguloAbajoSprite.x), (int)(rectanguloAbajoSprite.y-velocidad), rectanguloAbajoSprite.width, rectanguloAbajoSprite.height);
+
+		for (Entidad entidad : entidades.stream().filter(x -> !x.estaEliminada()).collect(Collectors.toList())) {
+				Sprite spriteEntidad = entidad.obtenerSprite();
+				Rectangle rectanguloArriba = spriteEntidad.obtenerRectanguloArriba();
+				//System.out.println("E Rectangulo izquierdo " + rectanguloIzquierdo.x + " " + rectanguloIzquierdo.y+" " + (rectanguloIzquierdo.x+rectanguloIzquierdo.width) + " " + (rectanguloIzquierdo.y+rectanguloIzquierdo.height) +" " );
+			
+					if (rectanguloAbajoSprite.intersects(rectanguloArriba)) {
+
+						colision = true;
+						System.out.println(sprite.obtenerRutaImagen()+ " por Arriba, colisiona entidad por abajo");
 					
 			}
 		}

@@ -8,6 +8,7 @@ import Entidades.EntidadMario;
 import Fabricas.Sprite;
 import Plataformas.Plataforma;
 import PowerUps.PowerUp;
+import Vistas.AdaptadorPosicion;
 
 public class Mario extends Entidad implements EntidadMario{
 
@@ -23,6 +24,7 @@ public class Mario extends Entidad implements EntidadMario{
 	private boolean caer;
 	private boolean saltar;
 	private boolean subir;
+	private int sueloFirme;
 
 	public Mario(int posicionX, int posicionY, Sprite[] coleccionSprites) {
 		super(posicionX, posicionY, coleccionSprites);
@@ -39,8 +41,8 @@ public class Mario extends Entidad implements EntidadMario{
 		moverHaciaIzquierda = true;
 		caer = true;
 		saltar = true;
-		sobreSueloFirme = true;
 		subir = true;
+		sueloFirme = posicionY;
 	}
 
 	public int obtenerVidas() {
@@ -211,17 +213,36 @@ public class Mario extends Entidad implements EntidadMario{
 			
 		}
 
-		if (!sobreSueloFirme && caer) {
+		if (!estaEnSueloFirme(AdaptadorPosicion.transformarY(obtenerPosicionY())) && caer) {
 			velocidadY -= gravedad; 
-			if(velocidadY > 0 && !detectarColisionesArriba(entidades, velocidadY))posicionY += velocidadY; 
+			if(velocidadY > 0  )posicionY += detectarColisionesArriba(entidades, velocidadY); 
 			observer.actualizarPosicion();
 		}
 		
-		/*if(!subir) {
+		if(!subir) {
 			velocidadY = -5;
-		}*/
+		}
 
-		if (posicionY <= estadoDeMario.obtenerNuevaPosicionY()) { //"posicionY <= 139" significa que mario está por encima del suelo
+		int copp = obtenerPosicionY();
+		if (!detectarColisionesAbajo(entidades, velocidadY) && !estaEnSueloFirme(obtenerPosicionY())) {
+			habilitarCaida();
+		}
+		
+
+		
+		/*if(detectarColisionesArriba(entidades, velocidadY)== 0) {
+			habilitarCaida();
+			deshabilitarSubir();
+		}
+		else {
+			habilitarSubir();
+		}*/
+		
+		
+		
+		
+		
+		/*if (posicionY <= estadoDeMario.obtenerNuevaPosicionY()) { //"posicionY <= 139" significa que mario está por encima del suelo
 			posicionY = estadoDeMario.obtenerNuevaPosicionY();
 			velocidadY = 0;
 			sobreSueloFirme = true; 
@@ -355,15 +376,6 @@ public class Mario extends Entidad implements EntidadMario{
 	public void deshabilitarSaltar() {
 		saltar = false;
 	}
-
-	public void habilitarSueloFirme() {
-		sobreSueloFirme = true;
-	}
-
-	public void desabilitarSueloFirme() {
-		if(this.posicionY != estadoDeMario.obtenerNuevaPosicionY())
-			sobreSueloFirme = false;
-	}
 	
 	public void habilitarSubir() {
 		subir = true;
@@ -372,6 +384,10 @@ public class Mario extends Entidad implements EntidadMario{
 	public void deshabilitarSubir() {
 		subir = false;
 		
+	}
+	
+	public boolean estaEnSueloFirme(int posicionY) {
+		return posicionY == sueloFirme;
 	}
 
 }
