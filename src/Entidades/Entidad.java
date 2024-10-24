@@ -244,7 +244,7 @@ public abstract class Entidad implements EntidadLogica{
 		boolean colision = false;
 		int nuevaVelocidad = (int)velocidad;
 		
-		Rectangle rectanguloArribaSprite = spriteMario.obtenerRectanguloArriba();
+		Rectangle rectanguloArribaSprite = new Rectangle(spriteMario.obtenerRectanguloArriba());
 		rectanguloArribaSprite.setBounds((int)(rectanguloArribaSprite.x), (int)(rectanguloArribaSprite.y-nuevaVelocidad), rectanguloArribaSprite.width, rectanguloArribaSprite.height);
 
 		for (Entidad entidad : entidades.stream().filter(x -> !x.estaEliminada()).collect(Collectors.toList())) {
@@ -255,7 +255,7 @@ public abstract class Entidad implements EntidadLogica{
 					if (rectanguloArribaSprite.intersects(rectanguloAbajo)) {
 
 						colision = true;
-						nuevaVelocidad =  rectanguloArribaSprite.y  - rectanguloArribaSprite.height - rectanguloAbajo.y;
+						nuevaVelocidad =  spriteMario.obtenerRectanguloArriba().y  - spriteMario.obtenerRectanguloArriba().height - rectanguloAbajo.y;
 						System.out.println(sprite.obtenerRutaImagen()+ " por Arriba, colisiona entidad por abajo");
 					
 			}

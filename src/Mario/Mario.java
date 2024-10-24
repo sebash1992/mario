@@ -214,18 +214,30 @@ public class Mario extends Entidad implements EntidadMario{
 		if (direccionDeMovimiento == ARRIBA) {
 			if (sobreSueloFirme) {
 				velocidadY = alturaSalto; 
+				posicionY += 1;
 				sobreSueloFirme = false;
 			}
 			
 		}
 
-		/*if (!sobreSueloFirme && caer) {
+		if (!estaEnSueloFirme(obtenerPosicionY())) {
 			velocidadY -= gravedad; 
-			posicionY += velocidadY; 
+
+			int velocidadYAux = detectarColisionesArriba(entidades, velocidadY); 
+			if(velocidadYAux > 0  ) {
+				posicionY += velocidadYAux;
+			}else if(velocidadYAux == 0){
+				velocidadY = -0.5;
+				
+			}else {
+				
+				posicionY += velocidadY;
+			}
 			observer.actualizarPosicion();
-		}*/
+		}
 		
-		if (!estaEnSueloFirme(obtenerPosicionY()) && caer) {
+		
+		/*if (!estaEnSueloFirme(obtenerPosicionY()) && caer) {
 			velocidadY -= gravedad; 
 			if(velocidadY > 0  )posicionY += detectarColisionesArriba(entidades, velocidadY); 
 			observer.actualizarPosicion();
@@ -234,15 +246,11 @@ public class Mario extends Entidad implements EntidadMario{
 		if(!subir) {
 			velocidadY = -5;
 		}
-
 		int copp = obtenerPosicionY();
 		if (!detectarColisionesAbajo(entidades, velocidadY) && !estaEnSueloFirme(obtenerPosicionY())) {
 			habilitarCaida();
 		}
-		
-
-		
-		/*if(detectarColisionesArriba(entidades, velocidadY)== 0) {
+		if(detectarColisionesArriba(entidades, velocidadY)== 0) {
 			habilitarCaida();
 			deshabilitarSubir();
 		}
