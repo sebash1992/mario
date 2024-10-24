@@ -1,11 +1,14 @@
 package Mario;
 
+import java.util.List;
+
 import Enemigos.Enemigo;
 import Entidades.Entidad;
 import Entidades.EntidadMario;
 import Fabricas.Sprite;
 import Plataformas.Plataforma;
 import PowerUps.PowerUp;
+import Vistas.AdaptadorPosicion;
 
 public class Mario extends Entidad implements EntidadMario{
 
@@ -21,6 +24,7 @@ public class Mario extends Entidad implements EntidadMario{
 	private boolean caer;
 	private boolean saltar;
 	private boolean subir;
+	private int sueloFirme;
 
 	public Mario(int posicionX, int posicionY, Sprite[] coleccionSprites) {
 		super(posicionX, posicionY, coleccionSprites);
@@ -37,8 +41,8 @@ public class Mario extends Entidad implements EntidadMario{
 		moverHaciaIzquierda = true;
 		caer = true;
 		saltar = true;
-		sobreSueloFirme = true;
 		subir = true;
+		sueloFirme = posicionY;
 	}
 
 	public int obtenerVidas() {
@@ -189,43 +193,52 @@ public class Mario extends Entidad implements EntidadMario{
 		return spriteReturn;
 	}
 
-	public void mover() {
+	public void mover(List<Entidad> entidades) {
 
-		if (direccionDeMovimiento == DERECHA && moverHaciaDerecha) {
-			posicionX += velocidadX;
-			observer.actualizarPosicion();
-		}
-
-		if (direccionDeMovimiento == IZQUIERDA && moverHaciaIzquierda) {
-			posicionX -= velocidadX;
-			observer.actualizarPosicion();
-		}
-
-		if (direccionDeMovimiento == ARRIBA && saltar) {
-			if (sobreSueloFirme) {
-				velocidadY = alturaSalto; 
-				sobreSueloFirme = false;
+		if (direccionDeMovimiento == DERECHA) {
+			int nuevaVelocidadX = detectarColisionesDerecha(entidades,velocidadX);
+			if(nuevaVelocidadX > 0) {
+				posicionX += velocidadX;
+				observer.actualizarPosicion();
 			}
 		}
 
-		if (!sobreSueloFirme && caer) {
+		if (direccionDeMovimiento == IZQUIERDA) {
+			int nuevaVelocidadX = detectarColisionesIzquierda(entidades,velocidadX);
+			if(nuevaVelocidadX > 0) {
+				posicionX -= nuevaVelocidadX;
+				observer.actualizarPosicion();
+			}
+		}
+
+		if (direccionDeMovimiento == ARRIBA) {
+			if (estaEnSueloFirme(obtenerPosicionY()) || estaSobrePlataforma(entidades,velocidadY)) {
+				velocidadY = alturaSalto; 
+				posicionY += 1;
+			}
+			
+		}
+
+		if (!estaEnSueloFirme(obtenerPosicionY()) && !estaSobrePlataforma(entidades,velocidadY)) {
 			velocidadY -= gravedad; 
-			posicionY += velocidadY; 
-			observer.actualizarPosicion();
-		}
-		
-		if(!subir) {
-			velocidadY = -5;
-		}
 
-		if (posicionY <= estadoDeMario.obtenerNuevaPosicionY()) { //"posicionY <= 139" significa que mario está por encima del suelo
-			posicionY = estadoDeMario.obtenerNuevaPosicionY();
-			velocidadY = 0;
-			sobreSueloFirme = true; 
-			observer.actualizarPosicion();
-		}  
-
-		if (direccionDeMovimiento == INMOVIL && sobreSueloFirme) {
+			int velocidadYAux = detectarColisionesArriba(entidades, velocidadY); 
+			if(velocidadYAux > 0  ) {
+				posicionY += velocidadYAux;
+			}else if(velocidadYAux == 0){
+				velocidadY = -0.5;
+				
+			}else {
+				int diferenciaConEntidadAbajo = detectarColisionesAbajo(entidades, velocidadY);
+				int diferenciaConPiso =  detectarColisionePiso(sueloFirme,velocidadY);
+				if(diferenciaConEntidadAbajo != 0 && diferenciaConPiso!= 0) {
+					if(diferenciaConEntidadAbajo >= diferenciaConPiso) {
+						posicionY += diferenciaConEntidadAbajo;
+					}else {
+						posicionY += diferenciaConPiso;
+					}
+				}
+			}
 			observer.actualizarPosicion();
 		}
 	}
@@ -352,15 +365,6 @@ public class Mario extends Entidad implements EntidadMario{
 	public void deshabilitarSaltar() {
 		saltar = false;
 	}
-
-	public void habilitarSueloFirme() {
-		sobreSueloFirme = true;
-	}
-
-	public void desabilitarSueloFirme() {
-		if(this.posicionY != estadoDeMario.obtenerNuevaPosicionY())
-			sobreSueloFirme = false;
-	}
 	
 	public void habilitarSubir() {
 		subir = true;
@@ -369,6 +373,10 @@ public class Mario extends Entidad implements EntidadMario{
 	public void deshabilitarSubir() {
 		subir = false;
 		
+	}
+	
+	public boolean estaEnSueloFirme(int posicionY) {
+		return posicionY == sueloFirme;
 	}
 
 }

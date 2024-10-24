@@ -65,7 +65,7 @@ public class SuperMario extends MarioState{
 		mario.modificarPuntos(-15);
 		mario.restarVida();
 		mario.habilitarCaida();
-		mario.desabilitarSueloFirme();
+		//mario.desabilitarSueloFirme();
 	}
 
 	public void aplicarBuzzyBeetle() {

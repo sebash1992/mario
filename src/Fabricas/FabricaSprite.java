@@ -10,20 +10,20 @@ public abstract class FabricaSprite {
 
 	public Sprite[] spriteMario() {
 		Sprite[] spriteMario= new Sprite[20];
-		spriteMario[0]=new Sprite(rutaSprite + "/mario_inmovil_derecha.png");
-		spriteMario[1]=new Sprite(rutaSprite + "/mario_inmovil_izquierda.png");
+		spriteMario[0]=new Sprite(rutaSprite + "/mario_inmovil_derecha.gif");
+		spriteMario[1]=new Sprite(rutaSprite + "/mario_inmovil_izquierda.gif");
 		spriteMario[2]=new Sprite(rutaSprite + "/mario_caminando_derecha.gif");
 		spriteMario[3]=new Sprite(rutaSprite + "/mario_caminando_izquierda.gif");
-		spriteMario[4]=new Sprite(rutaSprite + "/mario_saltando_derecha.png");
-		spriteMario[5]=new Sprite(rutaSprite + "/mario_saltando_izquierda.png");
+		spriteMario[4]=new Sprite(rutaSprite + "/mario_saltando_derecha.gif");
+		spriteMario[5]=new Sprite(rutaSprite + "/mario_saltando_izquierda.gif");
 		spriteMario[6]=new Sprite(rutaSprite + "/mario_flor_inmovil_derecha.png");
 		spriteMario[7]=new Sprite(rutaSprite + "/mario_flor_inmovil_izquierda.png");
 		spriteMario[8]=new Sprite(rutaSprite + "/mario_flor_caminando_derecha.gif");
 		spriteMario[9]=new Sprite(rutaSprite + "/mario_flor_caminando_izquierda.gif");
 		spriteMario[10]=new Sprite(rutaSprite + "/mario_flor_saltando_derecha.png");
 		spriteMario[11]=new Sprite(rutaSprite + "/mario_flor_saltando_izquierda.png");
-		spriteMario[12]=new Sprite(rutaSprite + "/super_mario_inmovil_derecha.png");
-		spriteMario[13]=new Sprite(rutaSprite + "/super_mario_inmovil_izquierda.png");
+		spriteMario[12]=new Sprite(rutaSprite + "/super_mario_inmovil_derecha.gif");
+		spriteMario[13]=new Sprite(rutaSprite + "/super_mario_inmovil_izquierda.gif");
 		spriteMario[14]=new Sprite(rutaSprite + "/super_mario_caminando_derecha.gif");
 		spriteMario[15]=new Sprite(rutaSprite + "/super_mario_caminando_izquierda.gif");
 		spriteMario[16]=new Sprite(rutaSprite + "/super_mario_saltando_derecha.png");
@@ -85,7 +85,7 @@ public abstract class FabricaSprite {
 
 	public Sprite[] spriteBloqueSolido() {
 		Sprite[] spriteBloqueSolido=new Sprite[1];
-		spriteBloqueSolido[0]=new Sprite(rutaSprite + "/bloque_solido.png");
+		spriteBloqueSolido[0]=new Sprite(rutaSprite + "/ladrillo_solido.gif");
 		return spriteBloqueSolido;
 	}
 
@@ -103,7 +103,7 @@ public abstract class FabricaSprite {
 
 	public Sprite[] spriteLadrilloSolido() {
 		Sprite[] spriteLadrilloSolido=new Sprite[1];
-		spriteLadrilloSolido[0]=new Sprite(rutaSprite + "/ladrillo_solido.png");
+		spriteLadrilloSolido[0]=new Sprite(rutaSprite + "/ladrillo_solido.gif");
 		return spriteLadrilloSolido;
 	}
 

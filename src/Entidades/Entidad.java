@@ -1,13 +1,17 @@
 package Entidades;
 
+import java.awt.Rectangle;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import Enemigos.Enemigo;
 import Fabricas.Sprite;
+import Juego.Nivel;
 import Mario.Mario;
 import Plataformas.Plataforma;
 import PowerUps.PowerUp;
 import Sonido.Sonido;
+import Vistas.AdaptadorPosicion;
 import Vistas.Observer;
 
 public abstract class Entidad implements EntidadLogica{
@@ -183,5 +187,148 @@ public abstract class Entidad implements EntidadLogica{
 	}
 
 	public void efectoBolaDeFuego() {
+	}
+	
+	
+	public int detectarColisionesDerecha(List<Entidad> entidades,double velocidad) {
+		Sprite spriteMario = this.obtenerSprite();
+		boolean colision = false;
+		int nuevaVelocidad = (int)velocidad;
+
+		Rectangle rectanguloDerechoSprite = new Rectangle(spriteMario.obtenerRectanguloDerecho());;
+		rectanguloDerechoSprite.setBounds((int)(rectanguloDerechoSprite.x+velocidad), rectanguloDerechoSprite.y, rectanguloDerechoSprite.width, rectanguloDerechoSprite.height);
+
+		for (Entidad entidad : entidades.stream().filter(x -> !x.estaEliminada()).collect(Collectors.toList())) {
+
+				Sprite spriteEntidad = entidad.obtenerSprite();
+				Rectangle rectanguloIzquierdo = spriteEntidad.obtenerRectanguloIzquierdo();
+				//System.out.println("E Rectangulo izquierdo " + rectanguloIzquierdo.x + " " + rectanguloIzquierdo.y+" " + (rectanguloIzquierdo.x+rectanguloIzquierdo.width) + " " + (rectanguloIzquierdo.y+rectanguloIzquierdo.height) +" " );
+			
+					if (rectanguloDerechoSprite.intersects(rectanguloIzquierdo)) {
+
+						colision = true;
+						nuevaVelocidad =  rectanguloIzquierdo.x - spriteMario.obtenerRectanguloDerecho().x  - spriteMario.obtenerRectanguloDerecho().width;
+						System.out.println(sprite.obtenerRutaImagen()+ " por derecha, colisiona entidad por izquierda");
+					
+			}
+		}
+		return nuevaVelocidad;
+	}
+	
+	
+	public int detectarColisionesIzquierda(List<Entidad> entidades,double velocidad) {
+		Sprite spriteMario = this.obtenerSprite();
+		boolean colision = false;
+		int nuevaVelocidad = (int)velocidad;
+		
+		Rectangle rectanguloIzquierdoSprite = new Rectangle(spriteMario.obtenerRectanguloIzquierdo());
+		rectanguloIzquierdoSprite.setBounds((int)(rectanguloIzquierdoSprite.x-velocidad), rectanguloIzquierdoSprite.y, rectanguloIzquierdoSprite.width, rectanguloIzquierdoSprite.height);
+
+		for (Entidad entidad : entidades.stream().filter(x -> !x.estaEliminada()).collect(Collectors.toList())) {
+				Sprite spriteEntidad = entidad.obtenerSprite();
+				Rectangle rectanguloDerecho = spriteEntidad.obtenerRectanguloDerecho();
+				//System.out.println("E Rectangulo izquierdo " + rectanguloIzquierdo.x + " " + rectanguloIzquierdo.y+" " + (rectanguloIzquierdo.x+rectanguloIzquierdo.width) + " " + (rectanguloIzquierdo.y+rectanguloIzquierdo.height) +" " );
+			
+					if (rectanguloIzquierdoSprite.intersects(rectanguloDerecho)) {
+
+						colision = true;
+						nuevaVelocidad =  rectanguloDerecho.x - spriteMario.obtenerRectanguloIzquierdo().x  - spriteMario.obtenerRectanguloIzquierdo().width;
+						System.out.println(sprite.obtenerRutaImagen()+ " por Izquierda, colisiona entidad por derecha");
+					
+			}
+		}
+		return nuevaVelocidad;
+	}
+	
+	public int detectarColisionesArriba(List<Entidad> entidades,double velocidad) {
+		Sprite spriteMario = this.obtenerSprite();
+		boolean colision = false;
+		int nuevaVelocidad = (int)velocidad;
+		
+		Rectangle rectanguloArribaSprite = new Rectangle(spriteMario.obtenerRectanguloArriba());
+		rectanguloArribaSprite.setBounds((int)(rectanguloArribaSprite.x), (int)(rectanguloArribaSprite.y-nuevaVelocidad), rectanguloArribaSprite.width, rectanguloArribaSprite.height);
+
+		for (Entidad entidad : entidades.stream().filter(x -> !x.estaEliminada()).collect(Collectors.toList())) {
+				Sprite spriteEntidad = entidad.obtenerSprite();
+				Rectangle rectanguloAbajo = spriteEntidad.obtenerRectanguloAbajo();
+				//System.out.println("E Rectangulo izquierdo " + rectanguloIzquierdo.x + " " + rectanguloIzquierdo.y+" " + (rectanguloIzquierdo.x+rectanguloIzquierdo.width) + " " + (rectanguloIzquierdo.y+rectanguloIzquierdo.height) +" " );
+			
+					if (rectanguloArribaSprite.intersects(rectanguloAbajo)) {
+
+						colision = true;
+						nuevaVelocidad =  spriteMario.obtenerRectanguloArriba().y  - spriteMario.obtenerRectanguloArriba().height - rectanguloAbajo.y;
+						System.out.println(sprite.obtenerRutaImagen()+ " por Arriba, colisiona entidad por abajo");
+					
+			}
+		}
+		return nuevaVelocidad;
+	}
+	
+	
+	
+	public int detectarColisionePiso(int piso,double velocidad) {
+		Sprite spriteMario = this.obtenerSprite();
+		boolean colision = false;
+		int nuevaVelocidad = (int)velocidad;
+		
+		Rectangle rectanguloAbajoSprite = new Rectangle(spriteMario.obtenerRectanguloAbajo());
+		rectanguloAbajoSprite.setBounds((int)(rectanguloAbajoSprite.x), (int)(rectanguloAbajoSprite.y-nuevaVelocidad), rectanguloAbajoSprite.width, rectanguloAbajoSprite.height);
+
+		int yInvertido = AdaptadorPosicion.transformarY(rectanguloAbajoSprite.y);
+		int diferenciaConPiso = yInvertido - piso ;
+		
+		if(diferenciaConPiso < 0) {
+			nuevaVelocidad = piso - yInvertido;
+		}
+		
+		return nuevaVelocidad;
+	}
+	
+	
+	public int detectarColisionesAbajo(List<Entidad> entidades,double velocidad) {
+		Sprite sprite = this.obtenerSprite();
+		boolean colision = false;
+		int nuevaVelocidad = (int)velocidad;
+		
+		
+		Rectangle rectanguloAbajoSprite = new Rectangle(sprite.obtenerRectanguloAbajo());
+		rectanguloAbajoSprite.setBounds((int)(rectanguloAbajoSprite.x), (int)(rectanguloAbajoSprite.y-nuevaVelocidad), rectanguloAbajoSprite.width, rectanguloAbajoSprite.height);
+
+		for (Entidad entidad : entidades.stream().filter(x -> !x.estaEliminada()).collect(Collectors.toList())) {
+				Sprite spriteEntidad = entidad.obtenerSprite();
+				Rectangle rectanguloArriba = spriteEntidad.obtenerRectanguloArriba();
+					if (rectanguloAbajoSprite.intersects(rectanguloArriba)) {
+						int rectangulo = sprite.obtenerRectanguloAbajo().y;
+						int rectanguloArribaYSuperior = (rectanguloArriba.y - rectanguloArriba.height);
+						nuevaVelocidad =   sprite.obtenerRectanguloAbajo().y  - rectanguloArribaYSuperior ;
+						System.out.println(sprite.obtenerRutaImagen()+ " por Arriba, colisiona entidad por abajo");
+					
+						if(nuevaVelocidad == -32) {
+							return 0;
+						}
+					}
+		}
+		
+		return nuevaVelocidad;
+	}
+	
+	public boolean estaSobrePlataforma(List<Entidad> entidades,double velocidad) {
+		Sprite sprite = this.obtenerSprite();
+		boolean colision = false;
+		int nuevaVelocidad = (int)velocidad;
+		
+		
+		Rectangle rectanguloAbajoSprite = new Rectangle(sprite.obtenerRectanguloAbajo());
+		rectanguloAbajoSprite.setBounds((int)(rectanguloAbajoSprite.x), (int)(rectanguloAbajoSprite.y+2), rectanguloAbajoSprite.width, rectanguloAbajoSprite.height);
+
+		for (Entidad entidad : entidades.stream().filter(x -> !x.estaEliminada()).collect(Collectors.toList())) {
+				Sprite spriteEntidad = entidad.obtenerSprite();
+				Rectangle rectanguloArriba = spriteEntidad.obtenerRectanguloArriba();
+					if (rectanguloAbajoSprite.intersects(rectanguloArriba)) {
+						colision=  true;
+					}
+		}
+		
+		return colision;
 	}
 }

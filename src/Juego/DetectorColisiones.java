@@ -1,5 +1,7 @@
 package Juego;
 
+import java.awt.Rectangle;
+
 import Entidades.Entidad;
 import Fabricas.Sprite;
 import Mario.Mario;
@@ -13,16 +15,20 @@ public class DetectorColisiones {
 	public void detectarColisionesMarioPlataformas(Nivel nivel) {
 		Mario mario = nivel.obtenerMario();
 		Sprite spriteMario = nivel.obtenerMario().obtenerSprite();
-		boolean colisionDerecha = false;
-		boolean colisionIzquierda = false;
-		boolean colisionAbajo = false;
-		boolean colisionArriba = false;
 
-		for (Entidad entidad : nivel.obtenerPlataformas()) {
+		/*for (Entidad entidad : nivel.obtenerPlataformas()) {
 
 			if (!entidad.estaEliminada()) {
 				Sprite spriteEntidad = entidad.obtenerSprite();
-
+				Rectangle rectanguloArriba = spriteEntidad.obtenerRectanguloArriba();
+				System.out.println("Rectangulo arriba " + rectanguloArriba.x + " " + rectanguloArriba.y+" " + (rectanguloArriba.x+rectanguloArriba.width) + " " + (rectanguloArriba.y+rectanguloArriba.height) +" " );
+				Rectangle rectanguloAbajo = spriteEntidad.obtenerRectanguloAbajo();
+				System.out.println("Rectangulo abajo " + rectanguloAbajo.x + " " + rectanguloAbajo.y+" " + (rectanguloAbajo.x+rectanguloAbajo.width) + " " + (rectanguloAbajo.y+rectanguloAbajo.height) +" " );
+				Rectangle rectanguloDerecho = spriteEntidad.obtenerRectanguloDerecho();
+				System.out.println("Rectangulo dercho " + rectanguloDerecho.x + " " + rectanguloDerecho.y+" " + (rectanguloDerecho.x+rectanguloDerecho.width) + " " + (rectanguloDerecho.y+rectanguloDerecho.height) +" " );
+				Rectangle rectanguloIzquierdo = spriteEntidad.obtenerRectanguloIzquierdo();
+				System.out.println("Rectangulo izquierdo " + rectanguloIzquierdo.x + " " + rectanguloIzquierdo.y+" " + (rectanguloIzquierdo.x+rectanguloIzquierdo.width) + " " + (rectanguloIzquierdo.y+rectanguloIzquierdo.height) +" " );
+			
 				if (spriteMario.intersects(spriteEntidad)) {
 
 					if (spriteMario.obtenerRectanguloDerecho().intersects(spriteEntidad.obtenerRectanguloIzquierdo())) {
@@ -31,6 +37,9 @@ public class DetectorColisiones {
 						colisionDerecha = true;
 						System.out.println("Mario por derecha, colisiona entidad por izquierda");
 					} else {
+						if(colisionDerecha) {
+							System.out.println("Mario por derecha, colisiona entidad por izquierda FALSE");
+						}
 						colisionDerecha = false;
 					}
 
@@ -40,6 +49,9 @@ public class DetectorColisiones {
 						colisionIzquierda = true;
 						System.out.println("Mario por izquierda, colisiona entidad por derecha");
 					} else {
+						if(colisionDerecha) {
+							System.out.println("Mario por izquierda, colisiona entidad por derecha FALSE");
+						}
 						colisionIzquierda = false;
 					}
 
@@ -50,7 +62,9 @@ public class DetectorColisiones {
 						System.out.println("Mario por abajo, colisiona entidad por arriba");
 
 					} else {
-
+						if(colisionAbajo) {
+							System.out.println("Mario por abajo, colisiona entidad por arriba FALSE");
+						}
 						colisionAbajo = false;
 					}
 
@@ -60,6 +74,9 @@ public class DetectorColisiones {
 						colisionArriba = true;
 						System.out.println("Mario por arriba, colisiona entidad por abajo");
 					} else {
+						if(colisionArriba) {
+							System.out.println("Mario por arriba, colisiona entidad por abajo False");
+						}
 						colisionArriba = false;
 
 					}
@@ -99,7 +116,7 @@ public class DetectorColisiones {
 			mario.habilitarSubir();
 		}
 		
-
+*/
 	}
 
 	public void detectarColisionesMarioEnemigos(Nivel nivel) {

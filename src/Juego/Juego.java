@@ -69,11 +69,12 @@ public class Juego {
 	}
 
 	public void moverMario() {
-		nivel.obtenerMario().mover();
+		nivel.obtenerMario().mover(nivel.obtenerEntidades());
 	}
 
 	public void establecerDireccionMario(char direccion) {
 		nivel.obtenerMario().establecerDireccion(direccion);
+		detectorColisiones.detectarColisionesMarioPlataformas(nivel);
 	}
 	
 	public void detectarColisionesMario() {

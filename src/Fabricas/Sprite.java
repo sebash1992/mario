@@ -42,13 +42,13 @@ public class Sprite extends Rectangle{
 
 		super.setBounds(x, y, ancho, alto);
 		
-		rectanguloArriba.setBounds( x-ancho - 48, y+4, ancho - 2, (int)alto/2 );
+		rectanguloArriba.setBounds( x, y-alto/2, ancho, alto/2 );
 		
-		rectanguloAbajo.setBounds( x-ancho - 48, y+40, ancho - 2, (int)alto/2 -2);
+		rectanguloAbajo.setBounds( x , y, ancho, alto/2 );
 		
-		rectanguloIzquierdo.setBounds(x - 106 , y+15, 18, alto-18);
+		rectanguloDerecho.setBounds(x + ancho/2 , y, ancho/2, alto);
 	
-		rectanguloDerecho.setBounds( x - ancho - 12, y+15, 18, alto-18);
+		rectanguloIzquierdo.setBounds( x  , y, ancho/2, alto);
 
 	}
 
