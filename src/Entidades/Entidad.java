@@ -1,9 +1,12 @@
 package Entidades;
 
+import java.awt.Rectangle;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import Enemigos.Enemigo;
 import Fabricas.Sprite;
+import Juego.Nivel;
 import Mario.Mario;
 import Plataformas.Plataforma;
 import PowerUps.PowerUp;
@@ -183,5 +186,52 @@ public abstract class Entidad implements EntidadLogica{
 	}
 
 	public void efectoBolaDeFuego() {
+	}
+	
+	
+	public boolean detectarColisionesDerecha(List<Entidad> entidades,double velocidad) {
+		Sprite spriteMario = this.obtenerSprite();
+		boolean colision = false;
+		
+		Rectangle rectanguloDerechoSprite = spriteMario.obtenerRectanguloDerecho();
+		rectanguloDerechoSprite.setBounds((int)(rectanguloDerechoSprite.x+velocidad), rectanguloDerechoSprite.y, rectanguloDerechoSprite.width, rectanguloDerechoSprite.height);
+
+		for (Entidad entidad : entidades.stream().filter(x -> !x.estaEliminada()).collect(Collectors.toList())) {
+
+				Sprite spriteEntidad = entidad.obtenerSprite();
+				Rectangle rectanguloIzquierdo = spriteEntidad.obtenerRectanguloIzquierdo();
+				//System.out.println("E Rectangulo izquierdo " + rectanguloIzquierdo.x + " " + rectanguloIzquierdo.y+" " + (rectanguloIzquierdo.x+rectanguloIzquierdo.width) + " " + (rectanguloIzquierdo.y+rectanguloIzquierdo.height) +" " );
+			
+					if (rectanguloDerechoSprite.intersects(rectanguloIzquierdo)) {
+
+						colision = true;
+						System.out.println("Mario por derecha, colisiona entidad por izquierda");
+					
+			}
+		}
+		return colision;
+	}
+	
+	
+	public boolean detectarColisionesIzquierda(List<Entidad> entidades,double velocidad) {
+		Sprite spriteMario = this.obtenerSprite();
+		boolean colision = false;
+		
+		Rectangle rectanguloIzquierdoSprite = spriteMario.obtenerRectanguloIzquierdo();
+		rectanguloIzquierdoSprite.setBounds((int)(rectanguloIzquierdoSprite.x-velocidad), rectanguloIzquierdoSprite.y, rectanguloIzquierdoSprite.width, rectanguloIzquierdoSprite.height);
+
+		for (Entidad entidad : entidades.stream().filter(x -> !x.estaEliminada()).collect(Collectors.toList())) {
+				Sprite spriteEntidad = entidad.obtenerSprite();
+				Rectangle rectanguloDerecho = spriteEntidad.obtenerRectanguloDerecho();
+				//System.out.println("E Rectangulo izquierdo " + rectanguloIzquierdo.x + " " + rectanguloIzquierdo.y+" " + (rectanguloIzquierdo.x+rectanguloIzquierdo.width) + " " + (rectanguloIzquierdo.y+rectanguloIzquierdo.height) +" " );
+			
+					if (rectanguloIzquierdoSprite.intersects(rectanguloDerecho)) {
+
+						colision = true;
+						System.out.println("Mario por Izquierda, colisiona entidad por derecha");
+					
+			}
+		}
+		return colision;
 	}
 }

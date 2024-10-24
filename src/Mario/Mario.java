@@ -1,5 +1,7 @@
 package Mario;
 
+import java.util.List;
+
 import Enemigos.Enemigo;
 import Entidades.Entidad;
 import Entidades.EntidadMario;
@@ -189,14 +191,14 @@ public class Mario extends Entidad implements EntidadMario{
 		return spriteReturn;
 	}
 
-	public void mover() {
+	public void mover(List<Entidad> entidades) {
 
-		if (direccionDeMovimiento == DERECHA && moverHaciaDerecha) {
+		if (direccionDeMovimiento == DERECHA && !detectarColisionesDerecha(entidades,velocidadX)) {
 			posicionX += velocidadX;
 			observer.actualizarPosicion();
 		}
 
-		if (direccionDeMovimiento == IZQUIERDA && moverHaciaIzquierda) {
+		if (direccionDeMovimiento == IZQUIERDA && !detectarColisionesIzquierda(entidades, velocidadX)) {
 			posicionX -= velocidadX;
 			observer.actualizarPosicion();
 		}

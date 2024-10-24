@@ -27,8 +27,8 @@ public class HiloMario extends Thread {
 		long duracionIntervalo = 1000/fps;
 		long siguienteIntervalo = System.currentTimeMillis() + duracionIntervalo; //el método System.currentTimeMillis() cuenta en milisegundos cuanto tiempo de ejecucion lleva el programa desde que se ejecutó
 		while(HiloEnEjecucion) {
-			juego.moverMario();
-			juego.detectarColisionesMario();
+			//juego.moverMario();
+			//juego.detectarColisionesMario();
 			pantallaJuego.repaint();
 			pantallaJuego.revalidate();
 			try {
