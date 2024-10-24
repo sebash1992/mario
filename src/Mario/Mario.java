@@ -195,14 +195,20 @@ public class Mario extends Entidad implements EntidadMario{
 
 	public void mover(List<Entidad> entidades) {
 
-		if (direccionDeMovimiento == DERECHA && !detectarColisionesDerecha(entidades,velocidadX)) {
-			posicionX += velocidadX;
-			observer.actualizarPosicion();
+		if (direccionDeMovimiento == DERECHA) {
+			int nuevaVelocidadX = detectarColisionesDerecha(entidades,velocidadX);
+			if(nuevaVelocidadX > 0) {
+				posicionX += velocidadX;
+				observer.actualizarPosicion();
+			}
 		}
 
-		if (direccionDeMovimiento == IZQUIERDA && !detectarColisionesIzquierda(entidades, velocidadX)) {
-			posicionX -= velocidadX;
-			observer.actualizarPosicion();
+		if (direccionDeMovimiento == IZQUIERDA) {
+			int nuevaVelocidadX = detectarColisionesIzquierda(entidades,velocidadX);
+			if(nuevaVelocidadX > 0) {
+				posicionX -= nuevaVelocidadX;
+				observer.actualizarPosicion();
+			}
 		}
 
 		if (direccionDeMovimiento == ARRIBA) {
@@ -213,7 +219,13 @@ public class Mario extends Entidad implements EntidadMario{
 			
 		}
 
-		if (!estaEnSueloFirme(AdaptadorPosicion.transformarY(obtenerPosicionY())) && caer) {
+		/*if (!sobreSueloFirme && caer) {
+			velocidadY -= gravedad; 
+			posicionY += velocidadY; 
+			observer.actualizarPosicion();
+		}*/
+		
+		if (!estaEnSueloFirme(obtenerPosicionY()) && caer) {
 			velocidadY -= gravedad; 
 			if(velocidadY > 0  )posicionY += detectarColisionesArriba(entidades, velocidadY); 
 			observer.actualizarPosicion();

@@ -189,11 +189,12 @@ public abstract class Entidad implements EntidadLogica{
 	}
 	
 	
-	public boolean detectarColisionesDerecha(List<Entidad> entidades,double velocidad) {
+	public int detectarColisionesDerecha(List<Entidad> entidades,double velocidad) {
 		Sprite spriteMario = this.obtenerSprite();
 		boolean colision = false;
-		
-		Rectangle rectanguloDerechoSprite = spriteMario.obtenerRectanguloDerecho();
+		int nuevaVelocidad = (int)velocidad;
+
+		Rectangle rectanguloDerechoSprite = new Rectangle(spriteMario.obtenerRectanguloDerecho());;
 		rectanguloDerechoSprite.setBounds((int)(rectanguloDerechoSprite.x+velocidad), rectanguloDerechoSprite.y, rectanguloDerechoSprite.width, rectanguloDerechoSprite.height);
 
 		for (Entidad entidad : entidades.stream().filter(x -> !x.estaEliminada()).collect(Collectors.toList())) {
@@ -205,19 +206,21 @@ public abstract class Entidad implements EntidadLogica{
 					if (rectanguloDerechoSprite.intersects(rectanguloIzquierdo)) {
 
 						colision = true;
+						nuevaVelocidad =  rectanguloIzquierdo.x - spriteMario.obtenerRectanguloDerecho().x  - spriteMario.obtenerRectanguloDerecho().width;
 						System.out.println(sprite.obtenerRutaImagen()+ " por derecha, colisiona entidad por izquierda");
 					
 			}
 		}
-		return colision;
+		return nuevaVelocidad;
 	}
 	
 	
-	public boolean detectarColisionesIzquierda(List<Entidad> entidades,double velocidad) {
+	public int detectarColisionesIzquierda(List<Entidad> entidades,double velocidad) {
 		Sprite spriteMario = this.obtenerSprite();
 		boolean colision = false;
+		int nuevaVelocidad = (int)velocidad;
 		
-		Rectangle rectanguloIzquierdoSprite = spriteMario.obtenerRectanguloIzquierdo();
+		Rectangle rectanguloIzquierdoSprite = new Rectangle(spriteMario.obtenerRectanguloIzquierdo());
 		rectanguloIzquierdoSprite.setBounds((int)(rectanguloIzquierdoSprite.x-velocidad), rectanguloIzquierdoSprite.y, rectanguloIzquierdoSprite.width, rectanguloIzquierdoSprite.height);
 
 		for (Entidad entidad : entidades.stream().filter(x -> !x.estaEliminada()).collect(Collectors.toList())) {
@@ -228,11 +231,12 @@ public abstract class Entidad implements EntidadLogica{
 					if (rectanguloIzquierdoSprite.intersects(rectanguloDerecho)) {
 
 						colision = true;
+						nuevaVelocidad =  rectanguloDerecho.x - spriteMario.obtenerRectanguloIzquierdo().x  - spriteMario.obtenerRectanguloIzquierdo().width;
 						System.out.println(sprite.obtenerRutaImagen()+ " por Izquierda, colisiona entidad por derecha");
 					
 			}
 		}
-		return colision;
+		return nuevaVelocidad;
 	}
 	
 	public int detectarColisionesArriba(List<Entidad> entidades,double velocidad) {
