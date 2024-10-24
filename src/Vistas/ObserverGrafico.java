@@ -54,7 +54,7 @@ public class ObserverGrafico extends JLabel implements Observer {
 		setBounds(x, y, ancho, alto);
 		
 		
-		System.out.println(objeto  + " " + x + " " + y+" " + (x+ancho) + " " + (y+alto) +" " );
+		System.out.println(objeto  + " " + x + " " + y+" " + ancho + " " + alto +" " );
 		entidadObservada.obtenerSprite().actualizarRectangulos(x, y, ancho, alto);
 		/*
 		Sprite spriteAux = entidadObservada.obtenerSprite();

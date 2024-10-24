@@ -61,7 +61,7 @@ public class ControladorVistas {
 	}
 	public void establecerDireccion(char direccion) {
 		juego.establecerDireccionMario(direccion);
-		//juego.moverMario();
+		juego.moverMario();
 	}
 
 

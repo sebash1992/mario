@@ -203,7 +203,7 @@ public class Mario extends Entidad implements EntidadMario{
 			observer.actualizarPosicion();
 		}
 
-		if (direccionDeMovimiento == ARRIBA && !detectarColisionesArriba(entidades, alturaSalto)) {
+		if (direccionDeMovimiento == ARRIBA) {
 			if (sobreSueloFirme) {
 				velocidadY = alturaSalto; 
 				sobreSueloFirme = false;
@@ -211,13 +211,13 @@ public class Mario extends Entidad implements EntidadMario{
 			
 		}
 
-		/*if (!sobreSueloFirme && caer) {
+		if (!sobreSueloFirme && caer) {
 			velocidadY -= gravedad; 
-			posicionY += velocidadY; 
+			if(velocidadY > 0 && !detectarColisionesArriba(entidades, velocidadY))posicionY += velocidadY; 
 			observer.actualizarPosicion();
 		}
 		
-		if(!subir) {
+		/*if(!subir) {
 			velocidadY = -5;
 		}*/
 

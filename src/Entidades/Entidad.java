@@ -240,7 +240,7 @@ public abstract class Entidad implements EntidadLogica{
 		boolean colision = false;
 		
 		Rectangle rectanguloArribaSprite = spriteMario.obtenerRectanguloArriba();
-		rectanguloArribaSprite.setBounds((int)(rectanguloArribaSprite.x), (int)(rectanguloArribaSprite.y+velocidad), rectanguloArribaSprite.width, rectanguloArribaSprite.height);
+		rectanguloArribaSprite.setBounds((int)(rectanguloArribaSprite.x), (int)(rectanguloArribaSprite.y-velocidad), rectanguloArribaSprite.width, rectanguloArribaSprite.height);
 
 		for (Entidad entidad : entidades.stream().filter(x -> !x.estaEliminada()).collect(Collectors.toList())) {
 				Sprite spriteEntidad = entidad.obtenerSprite();

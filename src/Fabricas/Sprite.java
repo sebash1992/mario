@@ -42,7 +42,7 @@ public class Sprite extends Rectangle{
 
 		super.setBounds(x, y, ancho, alto);
 		
-		rectanguloArriba.setBounds( x, y+alto/2, ancho, alto/2 );
+		rectanguloArriba.setBounds( x, y-alto/2, ancho, alto/2 );
 		
 		rectanguloAbajo.setBounds( x , y, ancho, alto/2 );
 		
