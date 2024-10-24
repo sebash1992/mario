@@ -203,14 +203,15 @@ public class Mario extends Entidad implements EntidadMario{
 			observer.actualizarPosicion();
 		}
 
-		if (direccionDeMovimiento == ARRIBA && saltar) {
+		if (direccionDeMovimiento == ARRIBA && !detectarColisionesArriba(entidades, alturaSalto)) {
 			if (sobreSueloFirme) {
 				velocidadY = alturaSalto; 
 				sobreSueloFirme = false;
 			}
+			
 		}
 
-		if (!sobreSueloFirme && caer) {
+		/*if (!sobreSueloFirme && caer) {
 			velocidadY -= gravedad; 
 			posicionY += velocidadY; 
 			observer.actualizarPosicion();
@@ -218,7 +219,7 @@ public class Mario extends Entidad implements EntidadMario{
 		
 		if(!subir) {
 			velocidadY = -5;
-		}
+		}*/
 
 		if (posicionY <= estadoDeMario.obtenerNuevaPosicionY()) { //"posicionY <= 139" significa que mario está por encima del suelo
 			posicionY = estadoDeMario.obtenerNuevaPosicionY();
@@ -227,9 +228,9 @@ public class Mario extends Entidad implements EntidadMario{
 			observer.actualizarPosicion();
 		}  
 
-		if (direccionDeMovimiento == INMOVIL && sobreSueloFirme) {
+		/*if (direccionDeMovimiento == INMOVIL && sobreSueloFirme) {
 			observer.actualizarPosicion();
-		}
+		}*/
 	}
 
 	public void cambiarEstado(MarioState estadoDeMario) {

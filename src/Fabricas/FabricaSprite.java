@@ -14,8 +14,8 @@ public abstract class FabricaSprite {
 		spriteMario[1]=new Sprite(rutaSprite + "/mario_inmovil_izquierda.gif");
 		spriteMario[2]=new Sprite(rutaSprite + "/mario_caminando_derecha.gif");
 		spriteMario[3]=new Sprite(rutaSprite + "/mario_caminando_izquierda.gif");
-		spriteMario[4]=new Sprite(rutaSprite + "/mario_saltando_derecha.png");
-		spriteMario[5]=new Sprite(rutaSprite + "/mario_saltando_izquierda.png");
+		spriteMario[4]=new Sprite(rutaSprite + "/mario_saltando_derecha.gif");
+		spriteMario[5]=new Sprite(rutaSprite + "/mario_saltando_izquierda.gif");
 		spriteMario[6]=new Sprite(rutaSprite + "/mario_flor_inmovil_derecha.png");
 		spriteMario[7]=new Sprite(rutaSprite + "/mario_flor_inmovil_izquierda.png");
 		spriteMario[8]=new Sprite(rutaSprite + "/mario_flor_caminando_derecha.gif");
